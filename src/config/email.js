@@ -11,7 +11,10 @@ const emailConfig = {
   },
   tls: {
     rejectUnauthorized: false
-  }
+  },
+  connectionTimeout: 60000, // 60 seconds
+  greetingTimeout: 30000, // 30 seconds
+  socketTimeout: 60000 // 60 seconds
 };
 
 const recipientEmail = process.env.RECIPIENT_EMAIL;

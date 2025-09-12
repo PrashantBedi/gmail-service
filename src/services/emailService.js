@@ -8,11 +8,19 @@ class EmailService {
 
   async verifyConnection() {
     try {
+      // Add timeout for verification
+      const verifyPromise = this.transporter.verify();
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Connection timeout')), 10000);
+      });
+      
+      await Promise.race([verifyPromise, timeoutPromise]);
       await this.transporter.verify();
       console.log('Email service is ready to send emails');
       return true;
     } catch (error) {
       console.error('Email service configuration error:', error.message);
+      console.error('Please check your SMTP configuration in .env file');
       return false;
     }
   }
