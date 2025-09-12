@@ -1,0 +1,21 @@
+{
+  "name": "email-backend-service",
+  "version": "1.0.0",
+  "description": "Backend service for handling contact form emails",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["express", "email", "nodemailer", "contact-form"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.11.0",
+    "nodemailer": "^6.9.7"
+  }
+}
