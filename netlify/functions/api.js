@@ -20,6 +20,7 @@ emailService.verifyConnection().catch(err => {
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 };
+)
 
 // Middleware
 app.use(cors(corsOptions));
