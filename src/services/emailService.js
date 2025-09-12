@@ -3,7 +3,7 @@ const { emailConfig, recipientEmail } = require('../config/email');
 
 class EmailService {
   constructor() {
-    this.transporter = nodemailer.createTransporter(emailConfig);
+    this.transporter = nodemailer.createTransport(emailConfig);
   }
 
   async verifyConnection() {
