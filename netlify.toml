@@ -1,6 +1,6 @@
 [build]
   functions = "netlify/functions"
-  environment = { SECRETS_SCAN_ENABLED = "false" }
+  environment = { SECRETS_SCAN_OMIT_KEYS = "NODE_ENV,SMTP_HOST,SMTP_PORT,SMTP_USER,SMTP_PASS" }
 
 [functions]
   node_bundler = "esbuild"
