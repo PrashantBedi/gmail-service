@@ -1,4 +1,5 @@
 const serverless = require('serverless-http');
 const app = require('../../src/app');
 
-module.exports.handler = serverless(app);
+// Export the handler for Netlify Functions
+exports.handler = serverless(app);
