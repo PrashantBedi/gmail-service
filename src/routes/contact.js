@@ -7,7 +7,7 @@ const router = express.Router();
 // POST /api/contact - Send contact form email
 router.post('/', validateContactForm, async (req, res) => {
   try {
-    const { name, email, phone, subject, body } = req.body;
+    const { name, email, phone, subject, body, recipientEmail } = req.body;
     
     console.log('Received contact form submission:', { name, email, subject });
     
@@ -16,7 +16,8 @@ router.post('/', validateContactForm, async (req, res) => {
       email,
       phone,
       subject,
-      body
+      body,
+      recipientEmail
     });
     
     res.status(200).json({

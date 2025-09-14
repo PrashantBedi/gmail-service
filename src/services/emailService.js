@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const { emailConfig, recipientEmail } = require('../config/email');
+const { emailConfig } = require('../config/email');
 
 class EmailService {
   constructor() {
@@ -24,7 +24,7 @@ class EmailService {
     }
   }
 
-  async sendContactEmail({ name, email, phone, subject, body }) {
+  async sendContactEmail({ name, email, phone, subject, body, recipientEmail }) {
     try {
       const emailTemplate = this.generateEmailTemplate({
         name,

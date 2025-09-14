@@ -17,13 +17,10 @@ const emailConfig = {
   socketTimeout: 60000 // 60 seconds
 };
 
-const recipientEmail = process.env.RECIPIENT_EMAIL;
-
-if (!emailConfig.auth.user || !emailConfig.auth.pass || !recipientEmail) {
+if (!emailConfig.auth.user || !emailConfig.auth.pass) {
   console.error('Email configuration is incomplete. Please check your .env file.');
 }
 
 module.exports = {
-  emailConfig,
-  recipientEmail
+  emailConfig
 };
