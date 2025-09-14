@@ -26,6 +26,14 @@ class EmailService {
 
   async sendContactEmail({ name, email, phone, subject, body, recipientEmail }) {
     try {
+      console.log('Attempting to send email to:', recipientEmail);
+      console.log('SMTP configuration check:', {
+        host: emailConfig.host,
+        port: emailConfig.port,
+        hasUser: !!emailConfig.auth.user,
+        hasPass: !!emailConfig.auth.pass
+      });
+      
       const emailTemplate = this.generateEmailTemplate({
         name,
         email,
@@ -51,7 +59,8 @@ class EmailService {
       };
     } catch (error) {
       console.error('Failed to send email:', error.message);
-      throw new Error('Email sending failed');
+      console.error('Email error details:', error);
+      throw new Error(`Email sending failed: ${error.message}`);
     }
   }
 

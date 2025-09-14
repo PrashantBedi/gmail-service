@@ -11,6 +11,16 @@ router.post('/', validateContactForm, async (req, res) => {
     
     console.log('Received contact form submission:', { name, email, subject });
     
+    // Check if email service is configured
+    const isEmailConfigured = process.env.SMTP_USER && process.env.SMTP_PASS;
+    if (!isEmailConfigured) {
+      console.error('Email service not configured - missing SMTP credentials');
+      return res.status(500).json({
+        success: false,
+        message: 'Email service is not configured. Please contact the administrator.'
+      });
+    }
+    
     const result = await emailService.sendContactEmail({
       name,
       email,
@@ -28,10 +38,16 @@ router.post('/', validateContactForm, async (req, res) => {
     
   } catch (error) {
     console.error('Contact form error:', error.message);
+    console.error('Error stack:', error.stack);
+    
+    // Provide more specific error messages in development
+    const errorMessage = process.env.NODE_ENV === 'development' 
+      ? `Email error: ${error.message}`
+      : 'Failed to send email. Please try again later.';
     
     res.status(500).json({
       success: false,
-      message: 'Failed to send email. Please try again later.'
+      message: errorMessage
     });
   }
 });
