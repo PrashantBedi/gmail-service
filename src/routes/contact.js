@@ -7,9 +7,10 @@ const router = express.Router();
 // POST /api/contact - Send contact form email
 router.post('/', validateContactForm, async (req, res) => {
   try {
-    const { name, email, phone, subject, body, recipientEmail } = req.body;
+    const { name, email, phone, subject, body, recipientEmails } = req.body;
     
     console.log('Received contact form submission:', { name, email, subject });
+    console.log('Sending to recipients:', recipientEmails);
     
     // Check if email service is configured
     const isEmailConfigured = process.env.SMTP_USER && process.env.SMTP_PASS;
@@ -27,13 +28,14 @@ router.post('/', validateContactForm, async (req, res) => {
       phone,
       subject,
       body,
-      recipientEmail
+      recipientEmails
     });
     
     res.status(200).json({
       success: true,
       message: 'Email sent successfully',
-      messageId: result.messageId
+      messageIds: result.messageIds,
+      recipientCount: recipientEmails.length
     });
     
   } catch (error) {

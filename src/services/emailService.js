@@ -24,9 +24,9 @@ class EmailService {
     }
   }
 
-  async sendContactEmail({ name, email, phone, subject, body, recipientEmail }) {
+  async sendContactEmail({ name, email, phone, subject, body, recipientEmails }) {
     try {
-      console.log('Attempting to send email to:', recipientEmail);
+      console.log('Attempting to send emails to:', recipientEmails);
       console.log('SMTP configuration check:', {
         host: emailConfig.host,
         port: emailConfig.port,
@@ -42,20 +42,29 @@ class EmailService {
         body
       });
 
-      const mailOptions = {
-        from: `"Contact Form" <${emailConfig.auth.user}>`,
-        to: recipientEmail,
-        subject: `Contact Form: ${subject}`,
-        html: emailTemplate,
-        text: this.generateTextTemplate({ name, email, phone, subject, body })
-      };
+      // Send email to all recipients
+      const emailPromises = recipientEmails.map(async (recipientEmail) => {
+        const mailOptions = {
+          from: `"Contact Form" <${emailConfig.auth.user}>`,
+          to: recipientEmail,
+          subject: `Contact Form: ${subject}`,
+          html: emailTemplate,
+          text: this.generateTextTemplate({ name, email, phone, subject, body })
+        };
 
-      const info = await this.transporter.sendMail(mailOptions);
-      console.log('Email sent successfully:', info.messageId);
+        const info = await this.transporter.sendMail(mailOptions);
+        console.log(`Email sent successfully to ${recipientEmail}:`, info.messageId);
+        return {
+          recipient: recipientEmail,
+          messageId: info.messageId
+        };
+      });
+
+      const results = await Promise.all(emailPromises);
       
       return {
         success: true,
-        messageId: info.messageId
+        messageIds: results
       };
     } catch (error) {
       console.error('Failed to send email:', error.message);

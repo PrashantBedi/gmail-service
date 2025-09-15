@@ -53,12 +53,16 @@ const contactFormSchema = Joi.object({
       'string.max': 'Message cannot exceed 2000 characters'
     }),
   
-  recipientEmail: Joi.string()
-    .email()
+  recipientEmails: Joi.array()
+    .items(Joi.string().email())
+    .min(1)
+    .max(3)
     .required()
     .messages({
-      'string.email': 'Please provide a valid recipient email address',
-      'string.empty': 'Recipient email is required'
+      'array.min': 'At least one recipient email is required',
+      'array.max': 'Maximum 3 recipient emails allowed',
+      'array.base': 'Recipient emails must be an array',
+      'string.email': 'All recipient emails must be valid email addresses'
     })
 });
 
