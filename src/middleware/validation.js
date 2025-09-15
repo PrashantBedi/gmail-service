@@ -1,5 +1,8 @@
 const Joi = require('joi');
 
+// Get email limit from environment variable, default to 3
+const EMAIL_LIMIT = parseInt(process.env.EMAIL_LIMIT) || 3;
+
 const contactFormSchema = Joi.object({
   name: Joi.string()
     .trim()
@@ -56,11 +59,11 @@ const contactFormSchema = Joi.object({
   recipientEmails: Joi.array()
     .items(Joi.string().email())
     .min(1)
-    .max(3)
+    .max(EMAIL_LIMIT)
     .required()
     .messages({
       'array.min': 'At least one recipient email is required',
-      'array.max': 'Maximum 3 recipient emails allowed',
+      'array.max': `Maximum ${EMAIL_LIMIT} recipient emails allowed`,
       'array.base': 'Recipient emails must be an array',
       'string.email': 'All recipient emails must be valid email addresses'
     })
