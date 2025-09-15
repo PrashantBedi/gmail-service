@@ -1,11 +1,12 @@
 const express = require('express');
 const emailService = require('../services/emailService');
 const { validateContactForm } = require('../middleware/validation');
+const { authenticateApiKey } = require('../middleware/auth');
 
 const router = express.Router();
 
 // POST /api/contact - Send contact form email
-router.post('/', validateContactForm, async (req, res) => {
+router.post('/', authenticateApiKey, validateContactForm, async (req, res) => {
   try {
     const { name, email, phone, subject, body, recipientEmail } = req.body;
     
