@@ -7,13 +7,26 @@ const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 // Load environment variables
 dotenv.config();
 
+// CORS Configuration - Add your frontend domains here
+const ALLOWED_ORIGINS = {
+  production: [
+    'https://airoparkon.netlify.app',
+    'https://www.airoparkon.com',
+    'https://airoparkon.com'
+  ],
+  development: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173'
+  ]
+};
+
 const app = express();
 
-// CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://airoparkon.netlify.app', 'https://www.airoparkon.com', 'https://airoparkon.com'] // Add your frontend domains here
-    : ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
+    ? ALLOWED_ORIGINS.production
+    : ALLOWED_ORIGINS.development,
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
