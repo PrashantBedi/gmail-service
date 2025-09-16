@@ -10,9 +10,9 @@ dotenv.config();
 // CORS Configuration - Add your frontend domains here
 const ALLOWED_ORIGINS = {
   production: [
-    'https://airoparkon.netlify.app',
-    'https://www.airoparkon.com',
-    'https://airoparkon.com'
+    'https://prashantbedi.netlify.app',
+    'https://www.prashantbedi.com',
+    'https://prashantbedi.com'
   ],
   development: [
     'http://localhost:3000',
